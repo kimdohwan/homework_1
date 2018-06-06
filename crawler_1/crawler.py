@@ -59,8 +59,8 @@ for a in a_list:
     title = a.string
 
     title_id_dict.append({
-        'titleId' : title_id,
-        'title' : title
+        'titleId': title_id,
+        'title': title
     })
 # print(len(title_id_dict))
 
@@ -84,52 +84,57 @@ for a in a_list:
         'title': title
     })
 # print(len(title_id_dict))
-print(title_id_dict)
+# print(title_id_dict)
+
 
 # -----------------------------검색---------------------------------
 
 # Create empty list(search_result_list) to restore result of search
 # Take search word from user(input)
 # Add webtoon title to list(search_result_list)
-
 while True:
     search_result_list = []
     user_search_word = input('검색할 웹툰 제목을 입력하세요: ')
     for title in title_list:
         if user_search_word in title:
             search_result_list.append(title)
-    else:
-        print(f'{user_search_word} 웹툰이 존재하지 않습니다')
-        continue
 
-# Print search result using index(enumerate)
+    # Print search result using index(enumerate)
     for index, title in enumerate(search_result_list):
         print(f'{index+1}. {title}')
 
-user_choice_webtoon_num = input('웹툰 번호를 선택해주세요: ')
+    if not search_result_list:
+        continue
+    else:
+        pass
 
-# (result) get title which user choice using 'enumerate' and 'index'
-for index, title in enumerate(search_result_list):
-    if user_choice_webtoon_num == f'{index+1}':
-        result = title
-# print(result)
+    user_choice_webtoon_num = input('웹툰 번호를 선택해주세요: ')
 
-# Match (result) with ['title'] of (title_id_dict)
-# Get titleid from (title_id_dict)
-selected_webtoon_id = ''
-for search_title in title_id_dict:
-    if result == search_title['title']:
-        t = search_title['title']
-        selected_webtoon_id = search_title['titleId']
-        print(f'\n웹툰 [{t}]이/가 선택되었습니다')
+    # (result) get title which user choice using 'enumerate' and 'index'
+    for index, title in enumerate(search_result_list):
+        if user_choice_webtoon_num == f'{index+1}':
+            result = title
+    # print(result)
 
-user_choice_detail = input(' 1. 웹툰 정보 보기\n 2. 웹툰 저장하기\n 3. 다른 웹툰 검색하기\n')
-# print(selected_webtoon_id)
+    # Match (result) with ['title'] of (title_id_dict)
+    # Get titleid from (title_id_dict)
+    selected_webtoon_id = ''
+    for search_title in title_id_dict:
+        if result == search_title['title']:
+            t = search_title['title']
+            selected_webtoon_id = search_title['titleId']
+            print(f'\n웹툰 [{t}]이/가 선택되었습니다')
 
-if user_choice_detail == '1':
-    print('웹툰정보 본다')
-elif user_choice_detail == '2':
-    print('웹툰 다운로드')
+    user_choice_detail = input(' 1. 웹툰 정보 보기\n 2. 웹툰 저장하기\n 3. 다른 웹툰 검색하기\n')
+    # print(selected_webtoon_id)
+
+    if user_choice_detail == '1':
+        print('웹툰정보 본다')
+    elif user_choice_detail == '2':
+        print('웹툰 다운로드')
+    elif user_choice_detail == '3':
+        continue
+
 
 #
 # a요소들을 출력해본다
