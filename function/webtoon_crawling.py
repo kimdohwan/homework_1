@@ -32,7 +32,7 @@ class Episode:
             img_html = open(file_path, 'rt').read()
         else:
             dir_path = 'episode'
-            os.makedirs(dir_path, exist_ok = True)
+            os.makedirs(dir_path, exist_ok=True)
 
             response = requests.get(episode_url)
             img_html = response.text
@@ -47,7 +47,6 @@ class Episode:
             img.get('src')
             image_list.append(img.get('src'))
         return image_list
-
 
 
 class Webtoon:
@@ -140,14 +139,15 @@ class Webtoon:
         return self._episode_list
 
 
-# if __name__ == '__main__':
-toon = Webtoon(703838)
-
-
-toon.html
-e1 = toon.episode_list[0]
-# print(toon.title)
-# print(toon.description)
-# print(e1.no)
-# print(toon.episode_list)
-# print(e1.url)
+if __name__ == '__main__':
+    toon = Webtoon(703838)
+    # toon.html
+    print(toon.title)
+    # e1 = toon.episode_list[0]
+    # print(os.path.dirname(os.path.abspath(__file__)))
+    # print(e1.no)
+    # print(toon._title)
+    # print(toon._description)
+    # print(e1.no)
+    # print(toon.episode_list)
+    # print(e1.url)

@@ -9,8 +9,8 @@ from function.webtoon_mainpage import *
 #             print(f' 작가: {toon.author}\n 설명: {toon.description}\n 총 회수: {e1.no}')
 #         elif choice == '3':
 #             page_one()
-
 def turn_on():
+    print(toon.title)
     print('Crtl+C로 종료합니다')
     while True:
         print('검색할 웹툰명을 입력해주세요:')
@@ -60,4 +60,9 @@ def turn_on():
 # print(e1.image_list())
 
 if __name__ == '__main__':
+    toon = Webtoon(703838)
+    toon.html
     turn_on()
+    e1 = toon.episode_list[0]
+
+

@@ -10,7 +10,7 @@ def crawl_mainpage():
     if os.path.exists(file_path):
         return open(file_path, 'rt').read()
     else:
-        dir_path = 'mainpage'
+        dir_path = f'{os.path.dirname(os.path.abspath(__file__))}/mainpage'
         os.makedirs(dir_path, exist_ok=True)
 
         response = requests.get(url_main)
@@ -32,3 +32,4 @@ def get_title():
 
 if __name__ == '__main__':
     print(get_title()[1])
+    print(os.path.dirname(os.path.abspath(__file__)))
