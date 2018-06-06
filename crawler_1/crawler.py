@@ -104,6 +104,7 @@ while True:
         print(f'{index+1}. {title}')
 
     if not search_result_list:
+        print(f'웹툰 {user_search_word}가 존재하지 않습니다')
         continue
     else:
         pass
@@ -125,15 +126,57 @@ while True:
             selected_webtoon_id = search_title['titleId']
             print(f'\n웹툰 [{t}]이/가 선택되었습니다')
 
-    user_choice_detail = input(' 1. 웹툰 정보 보기\n 2. 웹툰 저장하기\n 3. 다른 웹툰 검색하기\n')
-    # print(selected_webtoon_id)
+    while True:
 
-    if user_choice_detail == '1':
-        print('웹툰정보 본다')
-    elif user_choice_detail == '2':
-        print('웹툰 다운로드')
-    elif user_choice_detail == '3':
-        continue
+        user_choice_detail = input(' 1. 웹툰 정보 보기\n 2. 웹툰 저장하기\n 3. 다른 웹툰 검색하기\n')
+        # print(selected_webtoon_id)
+
+        if user_choice_detail == '1':
+            print(f'웹툰 정보보기 선택')
+            dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+            # print(dir_path)
+            file_path = os.path.join(dir_path, f'{selected_webtoon_id}.html')
+            # print(file_path)
+            url = 'https://comic.naver.com/webtoon/list.nhn?titleId={}'.format(selected_webtoon_id)
+            # print(url)
+
+            if os.path.exists(file_path):
+                f = open(file_path, 'rt')
+                html = f.read()
+                f.close()
+                print('html 파일이 이미 존재하여 읽기 실행\n')
+
+            else:
+                response = requests.get(url)
+                html = response.text
+                f = open(file_path, 'wt')
+                f.write(html)
+                f.close()
+                print('html파일 새로 받아 저장 완료\n')
+
+            soup = BeautifulSoup(html, 'lxml')
+            # print(soup)
+
+            # 제목, 설명, 작가
+            h2 = soup.select_one('div.detail > h2')
+            # print(type(div_container))
+            title = h2.contents[0].strip()
+            print(f'웹툰 정보\n 제목: {title}')
+            author = h2.contents[1].get_text(strip=True)
+            print(f' 작가: {author}')
+            description = soup.select_one('div.detail > p').string
+            u = input(f' 줄거리: {description}\n 2. 웹툰 저장 3.다른 웹툰 보기')
+            if u == '2':
+                pass
+            elif u == '3':
+                break
+
+        if user_choice_detail == '2':
+            print('웹툰 다운로드')
+            break
+
+        elif user_choice_detail == '3':
+            break
 
 
 #
