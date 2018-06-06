@@ -20,10 +20,12 @@
 #     if c == d:
 #     for
 import os
+#
+# print(os.path.dirname(os.path.abspath(__file__)))
+#
+# os.makedirs(
+#     f'{os.path.dirname(os.path.abspath(__file__))}/plzmakefile',
+#     exist_ok=True)
+# print('새 폴더를 생성합니다')
 
-print(os.path.dirname(os.path.abspath(__file__)))
-
-os.makedirs(
-    f'{os.path.dirname(os.path.abspath(__file__))}/plzmakefile',
-    exist_ok=True)
-print('새 폴더를 생성합니다')
+print('아직 멀었습니다')

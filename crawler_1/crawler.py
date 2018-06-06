@@ -6,15 +6,21 @@ from urllib import parse
 # 1. 웹툰으로 이름 검색하기
 url_webtoon_list = 'https://comic.naver.com/webtoon/weekday.nhn'
 
-dir_path = 'os.path.abspath(__file__)'
+dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+print(dir_path)
 
 # html데이터를 미리 파일로 저장, 없으면 다운로드하고 있으면 해당내용 가져오기
-file_path = 'data/webtoon_list.html'
+file_path = os.path.join(dir_path, 'webtoon_list.html')
+print(file_path)
+
 if os.path.exists(file_path):
     f = open(file_path, 'rt')
     html = f.read()
     f.close()
 else:
+    # 데이터를 보관할 파일을 생성
+    os.makedirs(dir_path, exist_ok=True)
+
     # 웹툰 목록 url로부터 텍스트 데이터를 받아와서 html변수에 할당하기
     response = requests.get(url_webtoon_list)
     html = response.text
@@ -27,6 +33,7 @@ soup = BeautifulSoup(html, 'lxml')
 
 # a태그인데 class가 title인 요소를 가져온다
 a_list = soup.select('a.title')
+print(a)
 
 # a요소들을 출력해본다
 # a_text_list = []
@@ -63,7 +70,4 @@ for a in a_list:
     href = a.get('href')
     query_dict = parse.parse_qs(parse.urlsplit(href).query)
     webtoon_id = query_dict.get('titleId')[0]
-    print(webtoon_id)
 
-if __name__== '__main__':
-    print(dir_path)
