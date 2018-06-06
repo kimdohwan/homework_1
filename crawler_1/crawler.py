@@ -47,34 +47,98 @@ for string in a_list:
 title_list = set(title_list)
 # print(len(title_list))
 
+# Bring id, title from a tag
+# Create list and make list element to dict type having id,title
+title_id_dict = []
+for a in a_list:
+    href = a.get('href')
+    urlsplit = parse.urlsplit(href)
+    query = urlsplit.query
+    query_set = parse.parse_qs(query)
+    title_id = query_set['titleId'][0]
+    title = a.string
+
+    title_id_dict.append({
+        'titleId' : title_id,
+        'title' : title
+    })
+# print(len(title_id_dict))
+
+# There is some duplication in (title_id_dict)
+# Using 'set()', 'continue' in 'if', remove duplication
+webtoon_id_set = set()
+title_id_dict = []
+for a in a_list:
+    href = a.get('href')
+    urlsplit = parse.urlsplit(href)
+    query = urlsplit.query
+    query_set = parse.parse_qs(query)
+    title_id = query_set['titleId'][0]
+    title = a.string
+
+    if title_id in webtoon_id_set:
+        continue
+    webtoon_id_set.add(title_id)
+    title_id_dict.append({
+        'titleId': title_id,
+        'title': title
+    })
+# print(len(title_id_dict))
+print(title_id_dict)
+
+# -----------------------------검색---------------------------------
+
 # Create empty list(search_result_list) to restore result of search
 # Take search word from user(input)
 # Add webtoon title to list(search_result_list)
-search_result_list = []
-search_word = input('검색할 웹툰 제목을 입력하세요: ')
-for title in title_list:
-    if search_word in title:
-        search_result_list.append(title)
+
+while True:
+    search_result_list = []
+    user_search_word = input('검색할 웹툰 제목을 입력하세요: ')
+    for title in title_list:
+        if user_search_word in title:
+            search_result_list.append(title)
+    else:
+        print(f'{user_search_word} 웹툰이 존재하지 않습니다')
+        continue
 
 # Print search result using index(enumerate)
+    for index, title in enumerate(search_result_list):
+        print(f'{index+1}. {title}')
+
+user_choice_webtoon_num = input('웹툰 번호를 선택해주세요: ')
+
+# (result) get title which user choice using 'enumerate' and 'index'
 for index, title in enumerate(search_result_list):
-    print(f'{index+1}. {title}')
+    if user_choice_webtoon_num == f'{index+1}':
+        result = title
+# print(result)
 
-user_choice_webtoon = input('웹툰을 선택해주세요: ')
+# Match (result) with ['title'] of (title_id_dict)
+# Get titleid from (title_id_dict)
+selected_webtoon_id = ''
+for search_title in title_id_dict:
+    if result == search_title['title']:
+        t = search_title['title']
+        selected_webtoon_id = search_title['titleId']
+        print(f'\n웹툰 [{t}]이/가 선택되었습니다')
 
-if user_choice_webtoon == '1':
-    print('1. 웹툰정보 보기\n2. 이미지 다운로드')
+user_choice_detail = input(' 1. 웹툰 정보 보기\n 2. 웹툰 저장하기\n 3. 다른 웹툰 검색하기\n')
+# print(selected_webtoon_id)
 
+if user_choice_detail == '1':
+    print('웹툰정보 본다')
+elif user_choice_detail == '2':
+    print('웹툰 다운로드')
 
-
-
+#
 # a요소들을 출력해본다
 # a_text_list = []
 # for a in a_list:
 #     a_text_list.append(a.string)
-
+#
 # a_text_list = [a.string for a in a_list]
-
+#
 # 리스트 중복제거를 하는 원리(즐겨찾기 봐라)
 # s = '21323113'
 # result = dict.fromkeys(s)
@@ -85,22 +149,22 @@ if user_choice_webtoon == '1':
 # 제목들의 리스트인 a_text_list의 중복을 없애준다
 # a_text_list_set = set(a_text_list)
 # a_text_list = list(a_text_list_set)
-
+#
 # search_result_list = []
 # for a_text in a_text_list:
 #     if '대학' in a_text:
 #         print(a_text)
 #         search_result_list.append(a_text)
 # print(search_result_list)
-
+#
 # list comprehension으로 출력하는 방법
 # t = []
 # t = [univ for univ in a_text_list if '대학' in univ]
 # print(t)
-
+#
 # a_dict = []
 # for a in a_list:
 #     href = a.get('href')
 #     query_dict = parse.parse_qs(parse.urlsplit(href).query)
 #     webtoon_id = query_dict.get('titleId')[0]
-
+#
